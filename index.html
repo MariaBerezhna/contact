@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <title>Simple contact form</title>
     <!-- Required meta tags -->
@@ -148,6 +147,13 @@
                             .fadeOut()
                             .empty();
 
+                            
+                        //following code is used here instead of the $.post function 
+                        //and should be deleted if you are using it,
+                        //just inserted this for presentation since GH hosting doesn't support php
+                        $("#msg").append('<h3 class="pt-1">Thank you, ' + name +  '. The message was successfully sent.</h3><hr>');
+
+
                         $('form').delay(5000).slideDown();
                         $('#name').val('');
                         $('#email').val('');
@@ -165,11 +171,7 @@
                         function (data) {
 
                        $("#msg").append("<p>" + data + "</p>");
-                            
-                        //following code is used here instead of the function above
-                        //and should be deleted if you are using it,
-                        //just inserted this for presentation since GH hosting doesn't support php
-                        $("#msg").append('<h3 class="pt-1">Thank you, ' + name +  '. The message was successfully sent.</h3><hr>');
+
 
                         });
                     return false;
