@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Simple contact form</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <style>
+        body {
+        text-align: center;
+    }
+
+    #main {
+        width: 40%;
+        height: 500px;
+        margin-top: 2%;
+        box-shadow: 3px 3px 3px 3px green;
+    }
+    textarea {
+        resize: none;
+    }
+
+    #msg {
+        height: 500px;
+        display: none;
+    }
+    span {
+        font-size: 70%;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="main" class="container">
+        <h3 class="pt-3">Contact me</h3>
+        <br>
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="name" class="col-form-label"></label>
+                <input id="name" name="name" type="text" placeholder="Your name" pattern="^[A-Za-z ]{2,35}$" required><br>
+                <span id="name_error"> <br></span>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-form-label"></label>
+                <input id="email" name="email" type="text" placeholder="Your e-mail" pattern="^(.+)@(.+){2,}\.(.+){2,}$"
+                    required><br>
+                <span id="email_error"> <br></span>
+            </div>
+            <div class="form-group">
+                <label for="tel" class="col-form-label"></label>
+                <input id="tel" name="tel" type="tel" placeholder="Your phone number" pattern="^\d{7,25}$" required><br>
+                <span id="tel_error"> <br></span>
+            </div>
+            <div class="form-group">
+                <label for="message">Your message:</label><br>
+                <textarea id="message" name="message" rows="4" cols="22"></textarea>
+            </div>
+            <button type="submit" id="submit" class="btn btn-success">Submit</button>
+        </form>
+        <div id="msg">
+        </div>
+
+
+    </div>
+    <footer>
+        <hr>
+        <h6>Marie Berezhna © 2018</h6>
+    </footer>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+    <script>
+        var Contact = (function () {
+
+            var reg, the_value, the_id;
+
+            function validation() { //Validation hints:
+                $("input").blur(function () {
+                    reg = new RegExp($(this).attr("pattern"));
+                    the_value = $(this).val();
+                    the_id = $(this).attr("id");
+
+                    if (reg.test(the_value)) {
+
+                        $(this).css({
+                            "box-shadow": "1px 1px 2px green"
+                        });
+                        $("#" + the_id + "_error").css({
+                            color: "transparent"
+                        });
+
+                    } else {
+
+                        $(this).css({
+                            "box-shadow": "1px 1px 2px red"
+                        });
+
+                        if (the_id == "tel") {
+                            $("#" + the_id + "_error").css({
+                                color: "red"
+                            }).html("Please, enter a valid phone number");
+                        } else {
+                            $("#" + the_id + "_error").css({
+                                color: "red"
+                            }).html("Please, enter a valid " + the_id);
+                        }
+                    }
+
+                });
+                $("input").focus(function () {
+                    $(this).css("box-shadow", "none");
+                    $("#" + the_id + "_error").css({
+                        color: "transparent"
+                    });
+
+                });
+            }
+
+            function processing() {
+
+                $("form").on("submit", function () {
+
+                    var name = $('#name').val(),
+                        email = $('#email').val(),
+                        tel = $('#tel').val(),
+                        message = $('#message').val();
+
+
+                    if (name && email && tel && reg.test(the_value)) {
+
+                        $('form').slideUp();
+                        $('#msg').fadeIn()
+                            .delay(5000)
+                            .fadeOut()
+                            .empty();
+
+                        $('form').delay(5000).slideDown();
+                        $('#name').val('');
+                        $('#email').val('');
+                        $('#tel').val('');
+                        $('#message').val('');
+                        $("input").css("box-shadow", "none");
+                    }
+
+                    $.post("contact_form.php", {
+                            name: name,
+                            email: email,
+                            tel: tel,
+                            message: message
+                        },
+                        function (data) {
+
+                            $("#msg").append("<p>" + data + "</p>");
+
+                        });
+                    return false;
+
+                });
+            }
+
+            function init() {
+                validation();
+                processing();
+            }
+            return {
+                init: init
+            };
+        })();
+
+        $(document).ready(function() {
+			  
+			  Contact.init();
+		  });
+    </script>
+</body>
+
+</html>
