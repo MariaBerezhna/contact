@@ -136,11 +136,13 @@
                         email = $('#email').val(),
                         tel = $('#tel').val(),
                         message = $('#message').val();
-
-
+                        
+ 
                     if (name && email && tel && reg.test(the_value)) {
-
+   
                         $('form').slideUp();
+
+                       
                         $('#msg').fadeIn()
                             .delay(5000)
                             .fadeOut()
@@ -162,12 +164,18 @@
                         },
                         function (data) {
 
-                            $("#msg").append("<p>" + data + "</p>");
+                       $("#msg").append("<p>" + data + "</p>");
+                            
+                        //following code is used here instead of the function above
+                        //and should be deleted if you are using it,
+                        //just inserted this for presentation since GH hosting doesn't support php
+                        $("#msg").append('<h3 class="pt-1">Thank you, ' + name +  '. The message was successfully sent.</h3><hr>');
 
                         });
                     return false;
 
                 });
+
             }
 
             function init() {

@@ -40,7 +40,7 @@ if (!empty ($_POST['message'])) {
 // PROCESSING DATA
 		
 if (($name != NULL) && ($tel != NULL) && ($email != NULL)) {
-	echo '<h3 class="pt-1">Thank you, ' . $name . '. The message was sent successfully.</h3><hr>';
+	echo '<h3 class="pt-1">Thank you, ' . $name . '. The message was successfully sent.</h3><hr>';
 	date_default_timezone_set('Israel');
 
 	$mail_to = "your@mail.com"; // your email here!
@@ -59,7 +59,7 @@ if (($name != NULL) && ($tel != NULL) && ($email != NULL)) {
 		$email_message .= "Received at: ". $created;
 	}
 	
-		// mail($mail_to, $subject, $email_message);	
+		mail($mail_to, $subject, $email_message);	
 
 } 
 
